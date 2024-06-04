@@ -410,7 +410,7 @@ function changeScene(show) {
 }
 
 window.onload = function() {
-    mainmenu.style.display = "block";
+    question.style.display = "block";
     loadExplanation(true);
     loadQuestion();
     givePoint(0);
