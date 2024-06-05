@@ -331,23 +331,44 @@ const listpertanyaan = [
     },
 ]
 
-let points = Number(0);
-if (localStorage.userPoint) {
-    console.log("found");
-    points = Number(localStorage.getItem("userPoint"));
-} else {
-    console.log("not");
-    localStorage.setItem("userPoint", Number(0));
-}
+const ranks = [
+    {
+        rank:"BARU",
+        requirement:0
+    },
+    {
+        rank:"PEMULA",
+        requirement:50
+    },
+    {
+        rank:"CERDAS",
+        requirement:100
+    },
+    {
+        rank:"PINTAR",
+        requirement:250,
+    },
 
-function givePoint(amount) {
-    points = Number(points) + Number(amount)
-    document.querySelector(".points").innerHTML = "POIN : " + points.toString();
-    localStorage.setItem("userPoint", Number(points));
-}
+    {
+        rank:"JENIUS",
+        requirement:500
+    },
+]
 
 function rand(max) {
     return Math.floor(Math.random() * max);
+}
+
+let userData = {
+    username:"PLAYER1",
+    points:0,
+    rank:"NONE",
+    rankindex:0
+}
+if (localStorage.userData) {
+    userData = JSON.parse(localStorage.getItem("userData"));
+} else {
+    localStorage.setItem("userData", JSON.stringify(userData));
 }
 
 const mainmenu = document.querySelector("#mainmenu");
@@ -357,8 +378,44 @@ const question = document.querySelector("#question");
 const answer = document.querySelector("#answer");
 const profile = document.querySelector("#profilescreen");
 const pointscreen = document.querySelector("#pointscreen");
-
 let chosenQuestion = rand(listpertanyaan.length);
+
+function saveData() {
+    localStorage.setItem("userData", JSON.stringify(userData));
+}
+
+function loadData() {
+    const pt1 = document.querySelector("#pointtext1");
+    const pt2 = document.querySelector("#pointtext2");
+    const rt1 = document.querySelector("#ranktext1");
+    const rt2 = document.querySelector("#ranktext2");
+    const condition = document.querySelector("#rankcondition");
+    const user = document.querySelector("#user");
+    const rankcondition = document.querySelector("#rankcondition")
+
+    pt1.textContent = "POIN : " + userData.points.toString();
+    pt2.textContent = "POIN : " + userData.points.toString();
+    rt1.textContent = "PERINGKAT : " + userData.rank.toString();
+    rt2.textContent = "PERINGKAT : " + userData.rank.toString();
+    user.textContent = userData.username.toString();
+    if (ranks[userData.rankindex + Number(1)]) {
+        rankcondition.textContent = "Capai " + ranks[userData.rankindex + Number(1)].requirement + " poin untuk peringkat selanjutnya";
+    } else {
+        rankcondition.textContent = "Peringkat Maksimal";
+    }
+    
+}
+
+function checkRank() {
+    let index = -1;
+    for (i in ranks) {
+        if (userData.points >= ranks[i].requirement) {
+            index += 1;
+            userData.rank = ranks[index].rank
+            userData.rankindex = index
+        }
+    }
+}
 
 function changeQuestion() {
     chosenQuestion = rand(listpertanyaan.length);
@@ -377,9 +434,9 @@ function loadExplanation(correct) {
     result.innerHTML = listpertanyaan[chosenQuestion].kebenaran.toUpperCase().toString();
 
     if (correct == true) {
-        result.style.backgroundColor = "rgb(47, 165, 47)";
+        result.style.backgroundColor = "rgb(81, 27, 209)";
     } else if (correct == false) {
-        result.style.backgroundColor = "rgb(255, 54, 54)";
+        result.style.backgroundColor = "rgb(255, 81, 81)";
     }
 
     if (listpertanyaan[chosenQuestion].sumber != "") {
@@ -410,10 +467,11 @@ function changeScene(show) {
 }
 
 window.onload = function() {
-    question.style.display = "block";
+    mainmenu.style.display = "block";
     loadExplanation(true);
     loadQuestion();
-    givePoint(0);
+    loadData();
+    checkRank();
 };
 
 let helpShown = false;
@@ -425,64 +483,78 @@ document.querySelector("#playbutton").addEventListener("click", function(){
         changeScene(question)
     }
 });
-
 document.querySelector("#helpbutton").addEventListener("click", function(){
     changeScene(question)
 });
-
 document.querySelector("#mitos").addEventListener("click", function() {
     changeScene(answer);
     
     if (listpertanyaan[chosenQuestion].kebenaran == "mitos") {
         loadExplanation(true);
+        userData.points += 10;
     } else {
         loadExplanation(false);
+        if (userData.points > 0) {
+            userData.points -= 5;
+        }
     }
 
+    loadData();
     changeQuestion();
 });
-
 document.querySelector("#fakta").addEventListener("click", function() {
     changeScene(answer);
     
     if (listpertanyaan[chosenQuestion].kebenaran == "fakta") {
         loadExplanation(true);
+        userData.points += 10;
     } else {
         loadExplanation(false);
+        if (userData.points > 0) {
+            userData.points -= 5;
+        }
     }
 
+    loadData();
     changeQuestion();
 });
-
 document.querySelector("#nextquestion").addEventListener("click", function() {
-    changeScene(question);
+    changeScene(pointscreen);
     loadQuestion();
+    loadData();
+    checkRank();
+    setTimeout(function (){changeScene(question)}, 5000);
+    saveData();
 });
-
 document.querySelector("#menubutton").addEventListener("click", function() {
     changeScene(options);
+    saveData();
 });
-
 document.querySelector("#resumebutton").addEventListener("click", function() {
     changeScene(question);
 });
-
 document.querySelector("#helpoption").addEventListener("click", function() {
     changeScene(help);
 });
-
 document.querySelector("#mainmenubutton").addEventListener("click", function() {
     changeScene(mainmenu);
 });
-
 document.querySelector("#profilebutton").addEventListener("click", function() {
     changeScene(profile);
+    loadData();
 });
-
 document.querySelector("#profilebutton2").addEventListener("click", function() {
     changeScene(profile);
+    loadData();
 });
-
 document.querySelector("#resumebutton2").addEventListener("click", function() {
     changeScene(mainmenu);
 });
+document.querySelector("#changename").addEventListener("keydown", function(key){
+    if (key.key == "Enter") {
+        document.querySelector("#user").textContent = document.querySelector("#changename").value.toString();
+        userData.username = document.querySelector("#changename").value.toString();
+        document.querySelector("#changename").value = "";
+        saveData();
+    }
+})

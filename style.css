@@ -1,6 +1,6 @@
 :root {
-    --color:rgb(196,188,177);
-    --color2:rgb(196,188,177, 0.75);
+    --color:rgb(217,221,224);
+    --color2:rgb(217,221,224, 0.75);
 }
 
 * {
@@ -9,6 +9,10 @@
     box-sizing: border-box;
     user-select: none;
     overflow-wrap: break-word;
+}
+
+*:focus {
+    outline: none;
 }
 
 ::-webkit-scrollbar {
@@ -20,10 +24,14 @@
     border-radius: 10px;
 }
 
-p, a {
-    color: white;
-    font-family: "Luckiest Guy", sans-serif;
+p, a, ::placeholder, input {
+    color: rgb(56,97,83);
+    font-family: "Milonga", sans-serif;
     text-decoration: none;
+}
+
+::placeholder {
+    opacity: 0.5;
 }
 
 #load {
@@ -87,7 +95,7 @@ p, a {
 
 #mainbutton p {
     font-size: 5vmax;
-    background-color: var(--color);
+    background-color: rgb(196,188,177);
     text-align: center;
     height: 150px;
     display: grid;
@@ -165,18 +173,18 @@ p, a {
     height: 20%;
     padding: 20px;
     float: left;
-    background-color: var(--color2);
     border-radius: 25px 0 0 25px;
 }
 
 #fakta p {
     border-radius: 40px;
-    background-color: rgb(47, 165, 47);
+    background-color: rgb(81, 27, 209);
     text-align: center;
     display: grid;
     align-items: center;
     height: 100%;
     font-size: 5vw;
+    color: white;
 }
 
 #mitos {
@@ -184,18 +192,18 @@ p, a {
     height: 20%;
     padding: 20px;
     float: left;
-    background-color: var(--color2);
     border-radius: 0 25px 25px 0;
 }
 
 #mitos p {
     border-radius: 40px;
-    background-color: rgb(255, 54, 54);
+    background-color: rgb(255, 81, 81);
     text-align: center;
     display: grid;
     align-items: center;
     height: 100%;
     font-size: 5vw;
+    color: white;
 }
 
 #explanation {
@@ -220,6 +228,7 @@ p, a {
 #result {
     text-align: center;
     border-radius: 40px;
+    color: white;
 }
 
 #nextquestion {
@@ -285,18 +294,12 @@ p, a {
     background-color: var(--color);
 }
 
-::placeholder {
-    color: white;
-    opacity: 0.5;
-}
-
 #profilecontainer input {
     height: 100px;
     text-align: center;
     border: none;
     background-color: var(--color2);
     font-size:5vw;
-    color: white;
 }
 
 #profilepicture {
@@ -320,4 +323,18 @@ p, a {
     display: grid;
     align-items: center;
     border-radius: 25px;
+}
+
+#point1 {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#point1 p {
+    font-size: 7vw;
+    text-align: center;
 }
