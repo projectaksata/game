@@ -486,7 +486,7 @@ function changeScene(show) {
 }
 
 window.onload = function() {
-    pointscreen.style.display = "block";
+    mainmenu.style.display = "block";
     loadExplanation(true);
     loadQuestion();
     loadData();
