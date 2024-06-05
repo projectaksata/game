@@ -355,6 +355,16 @@ const ranks = [
     },
 ]
 
+const profilepictures = [
+    "url('profilepictures/1.png')",
+    "url('profilepictures/2.png')",
+    "url('profilepictures/3.png')",
+    "url('profilepictures/4.png')",
+    "url('profilepictures/5.png')",
+    "url('profilepictures/6.png')",
+    "url('profilepictures/7.png')",
+]
+
 function rand(max) {
     return Math.floor(Math.random() * max);
 }
@@ -363,7 +373,8 @@ let userData = {
     username:"PLAYER1",
     points:0,
     rank:"NONE",
-    rankindex:0
+    rankindex:0,
+    ppindex:0
 }
 if (localStorage.userData) {
     userData = JSON.parse(localStorage.getItem("userData"));
@@ -391,7 +402,8 @@ function loadData() {
     const rt2 = document.querySelector("#ranktext2");
     const condition = document.querySelector("#rankcondition");
     const user = document.querySelector("#user");
-    const rankcondition = document.querySelector("#rankcondition")
+    const rankcondition = document.querySelector("#rankcondition");
+    const profilepicture = document.querySelector("#profilepicture");
 
     pt1.textContent = "POIN : " + userData.points.toString();
     pt2.textContent = "POIN : " + userData.points.toString();
@@ -403,6 +415,7 @@ function loadData() {
     } else {
         rankcondition.textContent = "Peringkat Maksimal";
     }
+    profilepicture.style.backgroundImage = profilepictures[userData.ppindex]
     
 }
 
@@ -467,7 +480,7 @@ function changeScene(show) {
 }
 
 window.onload = function() {
-    mainmenu.style.display = "block";
+    profile.style.display = "block";
     loadExplanation(true);
     loadQuestion();
     loadData();
@@ -523,7 +536,7 @@ document.querySelector("#nextquestion").addEventListener("click", function() {
     loadQuestion();
     loadData();
     checkRank();
-    setTimeout(function (){changeScene(question)}, 5000);
+    setTimeout(function (){changeScene(question)}, 3000);
     saveData();
 });
 document.querySelector("#menubutton").addEventListener("click", function() {
@@ -558,3 +571,10 @@ document.querySelector("#changename").addEventListener("keydown", function(key){
         saveData();
     }
 })
+document.querySelector("#profilepicture").addEventListener("click", function() {
+    userData.ppindex += 1;
+    if (userData.ppindex >= 7) {
+        userData.ppindex = 0
+    }
+    loadData();
+});
