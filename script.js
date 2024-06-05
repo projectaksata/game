@@ -376,8 +376,14 @@ let userData = {
     rankindex:0,
     ppindex:0
 }
+
 if (localStorage.userData) {
-    userData = JSON.parse(localStorage.getItem("userData"));
+    let loadedData = JSON.parse(localStorage.getItem("userData"));
+    Object.keys(loadedData).forEach(key => {
+        if (userData.hasOwnProperty(key)) {
+            userData[key] = loadedData[key];
+        }
+    });
 } else {
     localStorage.setItem("userData", JSON.stringify(userData));
 }
