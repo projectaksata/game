@@ -480,7 +480,7 @@ function changeScene(show) {
 }
 
 window.onload = function() {
-    profile.style.display = "block";
+    mainmenu.style.display = "block";
     loadExplanation(true);
     loadQuestion();
     loadData();
