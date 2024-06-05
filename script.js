@@ -486,7 +486,7 @@ function changeScene(show) {
 }
 
 window.onload = function() {
-    mainmenu.style.display = "block";
+    pointscreen.style.display = "block";
     loadExplanation(true);
     loadQuestion();
     loadData();
@@ -540,9 +540,8 @@ document.querySelector("#fakta").addEventListener("click", function() {
 document.querySelector("#nextquestion").addEventListener("click", function() {
     changeScene(pointscreen);
     loadQuestion();
-    loadData();
     checkRank();
-    setTimeout(function (){changeScene(question)}, 3000);
+    loadData();
     saveData();
 });
 document.querySelector("#menubutton").addEventListener("click", function() {
@@ -583,4 +582,7 @@ document.querySelector("#profilepicture").addEventListener("click", function() {
         userData.ppindex = 0
     }
     loadData();
+});
+document.querySelector("#pointscreenbutton").addEventListener("click", function() {
+    changeScene(question);
 });
